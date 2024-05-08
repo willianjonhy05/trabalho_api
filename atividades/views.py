@@ -1,11 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Atividade
 from rest_framework import generics
 from .serielizer import AtividadeSerialiezer, DetalharAtividade, AtividadeS
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
 
+
+
+@api_view(["GET"])
+def getRoutes(request):
+    routes = {
+    "Criar Atividade": "http://127.0.0.1:8000/nova-atividade/",
+    "Listar Atividades": "http://127.0.0.1:8000/atividades/"
+}
+    return Response(routes)
+
+
+class Home(generics.ListCreateAPIView):
+    queryset = Atividade.objects.all()
+    serializer_class = AtividadeS
+    
+    def list(self, request):        
+        queryset = self.get_queryset()
+        serializer = AtividadeS(queryset, many=True)
+        return Response(serializer.data)
+    
+class CriarAtividade(generics.CreateAPIView):
+    queryset = Atividade.objects.all()
+    permission_classes = (AllowAny, )
+    serializer_class = AtividadeS
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)        
+        return redirect('get-routes')
 
 # class AtividadeViewSet(viewsets.ViewSet):
 #     def list(self, request):
@@ -49,7 +79,7 @@ class DetalharAtividade(generics.RetrieveAPIView):
     queryset = Atividade.objects.all()
     serializer_class = DetalharAtividade
 
-class AtividadeAtualizar(generics.UpdateAPIView):
+class AtividadeAtualizar(generics.RetrieveUpdateAPIView):
     queryset = Atividade.objects.all()
     serializer_class = AtividadeS
     partial = True
