@@ -14,13 +14,16 @@ from rest_framework.decorators import api_view
 def getRoutes(request):
     routes = {
     "Criar Atividade": "http://127.0.0.1:8000/nova-atividade/",
-    "Listar Atividades": "http://127.0.0.1:8000/atividades/"
+    "Todas as Atividades": "http://127.0.0.1:8000/atividades/",
+    "Atividade Pendentes": "http://127.0.0.1:8000/atividades-pendentes/",
+    "Atividade em Andamento": "http://127.0.0.1:8000/atividades-em-andamento/",
+    "Atividade Concluidas": "http://127.0.0.1:8000/atividades-concluidas/",
 }
     return Response(routes)
 
 
 class Home(generics.ListCreateAPIView):
-    queryset = Atividade.objects.all()
+    queryset = Atividade.objects.filter(status='Pendente')
     serializer_class = AtividadeS
     
     def list(self, request):        
@@ -37,43 +40,22 @@ class CriarAtividade(generics.CreateAPIView):
         response = super().create(request, *args, **kwargs)        
         return redirect('get-routes')
 
-# class AtividadeViewSet(viewsets.ViewSet):
-#     def list(self, request):
-#         queryset = Atividade.objects.all()
-#         serializer = AtividadeSerialiezer(queryset, many=True)
-#         return Response(serializer.data)
-
-#     def create(self, request):
-#         serializer = AtividadeS(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
-
-#     def retrieve(self, request, pk=None):
-#         queryset = Atividade.objects.all()
-#         atividade = get_object_or_404(queryset, pk=pk)
-#         serializer = AtividadeS(atividade)
-#         return Response(serializer.data)
-
-#     def update(self, request, pk=None):
-#         atividade = Atividade.objects.get(pk=pk)
-#         serializer = AtividadeS(atividade, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-
-#     def destroy(self, request, pk=None):
-#         atividade = Atividade.objects.get(pk=pk)
-#         atividade.delete()
-#         return Response(status=204)
-
 
 class ListaAtividades(viewsets.ModelViewSet):
     queryset = Atividade.objects.all()
     serializer_class = AtividadeSerialiezer
 
+class ListaAtividadesPendentes(viewsets.ModelViewSet):
+    queryset = Atividade.objects.filter(status='P')
+    serializer_class = AtividadeSerialiezer
+
+class ListaAtividadesEmAndamento(viewsets.ModelViewSet):
+    queryset = Atividade.objects.filter(status='A')
+    serializer_class = AtividadeSerialiezer
+
+class ListaAtividadesConcluidas(viewsets.ModelViewSet):
+    queryset = Atividade.objects.filter(status='C')
+    serializer_class = AtividadeSerialiezer
 
 class DetalharAtividade(generics.RetrieveAPIView):
     queryset = Atividade.objects.all()
