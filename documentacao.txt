@@ -1,0 +1,13 @@
+Atividades Executadas
+
+1 - Criação de Diretórios
+2 - Instalação e ativação do ambiente virtual
+3 - Instalação do Django
+4 - Inicialização de Projeto e Aplicação
+5 - Configurações Iniciais do Settings
+6 - Edição do Models e Admin
+7 - Instalação do Django Rest Framework, Cors Header, MarkDown e Django Filters
+8 - Edição do Settings
+9 - Criando e editando o arquivo serielizer
+10 - Editando o arquivo views e URLS
+11 - Operando os comandos de makemigrations e migrate
