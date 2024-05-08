@@ -13,3 +13,5 @@ Atividades Executadas
 11 - Operando os comandos de makemigrations e migrate
 12 - Iniciando o servidor
 13 - Concluído
+
+Para mais detalhes consultar em: https://road-ocarina-7bb.notion.site/Atividade-API-Projeto-Lista-de-Atividades-25c711d15426415eb79820c94117c54f?pvs=25
