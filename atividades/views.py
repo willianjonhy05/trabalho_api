@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .models import Atividade
 from rest_framework import generics
 from .serielizer import AtividadeSerialiezer, DetalharAtividade, AtividadeS
 from rest_framework import viewsets
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
+# from django.urls import reverse
 
 
 
@@ -21,15 +21,17 @@ def getRoutes(request):
 }
     return Response(routes)
 
+# @api_view(["GET"])
+# def getRoutes(request):
+#     routes = {
+#         "Criar Atividade": reverse('nova-atividade'),
+#         "Todas as Atividades": reverse('atividades'),
+#         "Atividade Pendentes": reverse('atividades-pendentes'),
+#         "Atividade em Andamento": reverse('atividades-em-andamento'),
+#         "Atividade Concluidas": reverse('atividades-concluidas'),
+#     }
+#     return Response(routes)
 
-class Home(generics.ListCreateAPIView):
-    queryset = Atividade.objects.filter(status='Pendente')
-    serializer_class = AtividadeS
-    
-    def list(self, request):        
-        queryset = self.get_queryset()
-        serializer = AtividadeS(queryset, many=True)
-        return Response(serializer.data)
     
 class CriarAtividade(generics.CreateAPIView):
     queryset = Atividade.objects.all()
