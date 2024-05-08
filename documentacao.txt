@@ -11,3 +11,5 @@ Atividades Executadas
 9 - Criando e editando o arquivo serielizer
 10 - Editando o arquivo views e URLS
 11 - Operando os comandos de makemigrations e migrate
+12 - Iniciando o servidor
+13 - Concluído
